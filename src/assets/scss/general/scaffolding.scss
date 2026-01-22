@@ -1,0 +1,32 @@
+/* scaffolding */
+
+@use '~/assets/scss/general/variables' as *;
+@use '~/assets/scss/abstracts/mixins' as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
+  font-family: Geist, Arial, sans-serif;
+  font-weight: 300;
+  color: var(--color-black);
+  background: var(--color-white) url('~/assets/images/bg.svg');
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  margin: -1px;
+  clip-path: rect(0 0 0 0);
+  white-space: nowrap;
+}

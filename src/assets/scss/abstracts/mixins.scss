@@ -1,0 +1,15 @@
+@use '@/assets/scss/general/variables' as *;
+
+@mixin line-clamp($lines: 1) {
+  @if $lines <= 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+    text-overflow: ellipsis;
+  }
+}
