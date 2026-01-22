@@ -260,7 +260,22 @@ body {
   height: 100vh;
   font-size: clamp(1.2rem, 2vw, 2.5rem);
   color: var(--color-white);
-  background: var(--color-black);
+  background-color: var(--color-black);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.slide:nth-child(1) {
+  background-image: url('~/assets/images/image-01.webp');
+}
+
+.slide:nth-child(2) {
+  background-image: url('~/assets/images/image-02.webp');
+}
+
+.slide:nth-child(3) {
+  background-image: url('~/assets/images/image-03.webp');
 }
 
 .slide-wrapper {
