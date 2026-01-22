@@ -172,9 +172,42 @@ function animateWords() {
   setInterval(changeWord, 3000)
 }
 
+function animateDetails() {
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.details',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true,
+    },
+  })
+
+  tl.to('.details-title', {
+    y: -100,
+  }).to(
+    '.details-box',
+    {
+      y: -50,
+      height: 300,
+    },
+    '<',
+  )
+
+  gsap.to('.marquee-text', {
+    scrollTrigger: {
+      trigger: '.marquee',
+      start: 'top 80%',
+      end: 'bottom top',
+      scrub: true,
+    },
+    x: 200,
+  })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll()
   initThreeJS()
   initRenderLoop()
   animateWords()
+  animateDetails()
 })
