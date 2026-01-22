@@ -1,6 +1,7 @@
 import '~/assets/css/main.css'
 import '~/assets/scss/main.scss'
 
+import SplitType from 'split-type'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -125,9 +126,6 @@ function initRenderLoop() {
       }
     }
 
-    // Update Orbital Controls
-    // controls.update()
-
     if (_renderer && _scene && _camera) {
       _renderer.render(_scene, _camera)
     }
@@ -138,8 +136,45 @@ function initRenderLoop() {
   tick()
 }
 
+function animateWords() {
+  const wordElement = document.getElementById('animated-word')
+  const words = ['Romance', 'Elegance', 'Timeless', 'Beauty']
+  let currentWordIndex = 0
+  let _split: SplitType | null = null
+
+  function changeWord() {
+    if (!wordElement) return
+
+    wordElement.textContent = words[currentWordIndex]
+
+    _split = new SplitType('#animated-word', { types: 'chars' })
+
+    if (_split.chars) {
+      animateChars(_split.chars)
+      currentWordIndex = (currentWordIndex + 1) % words.length
+    }
+  }
+
+  function animateChars(chars: HTMLElement[]) {
+    gsap.from(chars, {
+      yPercent: 100,
+      stagger: 0.05,
+      duration: 1.5,
+      ease: 'power3.out',
+      onComplete: () => {
+        if (_split) {
+          _split.revert()
+        }
+      },
+    })
+  }
+
+  setInterval(changeWord, 3000)
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll()
   initThreeJS()
   initRenderLoop()
+  animateWords()
 })

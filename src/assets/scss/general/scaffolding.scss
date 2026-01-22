@@ -131,8 +131,10 @@ body {
 }
 
 .hero-title {
+  font-family: monospace;
   font-size: clamp(3rem, 7vw, 11rem);
   font-weight: 300;
+  white-space: nowrap;
 }
 
 .hero-media {
