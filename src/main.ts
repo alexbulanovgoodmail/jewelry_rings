@@ -269,6 +269,34 @@ function animateSlider() {
   )
 }
 
+function animateContact() {
+  gsap.set('.contact-title span, .contact-cta span', {
+    yPercent: 100,
+  })
+  gsap.set('.contact-description p', {
+    opacity: 0,
+  })
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.contact',
+      start: '-10% center',
+      end: 'bottom-=30% center',
+      scrub: true,
+    },
+  })
+
+  tl.to(['.contact .line-top', '.contact .line-bottom'], {
+    width: '100%',
+  })
+    .to('.contact-title span, .contact-cta span', {
+      yPercent: 0,
+    })
+    .to('.contact-description p', {
+      opacity: 1,
+    })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll()
   initThreeJS()
@@ -276,4 +304,5 @@ document.addEventListener('DOMContentLoaded', () => {
   animateWords()
   animateDetails()
   animateSlider()
+  animateContact()
 })

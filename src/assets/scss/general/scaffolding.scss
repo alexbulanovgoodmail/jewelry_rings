@@ -318,12 +318,16 @@ body {
 .line-bottom {
   position: absolute;
   bottom: 0;
-  left: 0;
+  right: 0;
   z-index: 10;
 }
 
 .contact-title {
   font-size: clamp(2rem, 4vw, 5rem);
+
+  span {
+    display: block;
+  }
 }
 
 .contact-description {
@@ -336,4 +340,8 @@ body {
 
 .contact-cta {
   margin: 1.2rem 0 2rem;
+
+  span {
+    display: block;
+  }
 }
