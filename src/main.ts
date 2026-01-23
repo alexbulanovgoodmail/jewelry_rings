@@ -204,10 +204,76 @@ function animateDetails() {
   })
 }
 
+function animateSlider() {
+  const mm = gsap.matchMedia()
+
+  mm.add(
+    {
+      isDesktop: '(min-width: 768px)',
+      isMobile: '(max-width: 767px)',
+    },
+    (context) => {
+      const { isDesktop } = context.conditions as {
+        isDesktop: boolean
+        isMobile: boolean
+      }
+      const slider = document.querySelector('.slider') as HTMLElement
+      const slides = gsap.utils.toArray('.slide') as HTMLElement[]
+
+      const tl = gsap.timeline({
+        defaults: { ease: 'none', duration: 1 },
+        scrollTrigger: {
+          trigger: slider,
+          pin: isDesktop ? true : false,
+          scrub: 1,
+          end: () => (isDesktop ? `+=${slider.offsetWidth}` : 'bottom'),
+        },
+      })
+
+      if (isDesktop) {
+        tl.to(
+          slider,
+          {
+            xPercent: -66,
+          },
+          '<',
+        ).to(
+          '.slider-progress',
+          {
+            width: '100%',
+          },
+          '<',
+        )
+      }
+
+      slides.forEach((slide) => {
+        const split = new SplitType(
+          slide.querySelector('.slide-text') as HTMLElement,
+          { types: 'chars' },
+        )
+
+        tl.from(split.chars, {
+          opacity: 0,
+          y: 10,
+          stagger: 0.02,
+          scrollTrigger: {
+            trigger: slide.querySelector('.slide-text') as HTMLElement,
+            start: 'top bottom',
+            end: 'bottom center',
+            containerAnimation: isDesktop ? tl : undefined,
+            scrub: 1,
+          },
+        })
+      })
+    },
+  )
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll()
   initThreeJS()
   initRenderLoop()
   animateWords()
   animateDetails()
+  animateSlider()
 })
