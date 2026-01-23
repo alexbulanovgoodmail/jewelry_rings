@@ -231,10 +231,14 @@ body {
 }
 
 .marquee {
-  font-size: clamp(7rem, 17vw, 23rem);
+  display: flex;
   font-weight: 700;
   color: #f5f5f5;
   overflow: hidden;
+}
+
+.marquee-text {
+  font-size: clamp(7rem, 17vw, 23rem);
 }
 
 .carousel {

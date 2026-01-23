@@ -27,17 +27,16 @@
         background: #edf8ff;
         display: grid;
         place-content: center;
-        opacity: 1;
 
         svg {
           animation: grow-ring 1.5s ease-in-out infinite;
         }
 
         &.hidden {
-          opacity: 0;
           pointer-events: none;
           user-select: none;
           transition: all 1s ease-in-out;
+          transform: translateY(-100%);
         }
       }
 
