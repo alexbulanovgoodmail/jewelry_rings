@@ -35,7 +35,7 @@ export default defineConfig({
     },
   },
   root,
-  base: './',
+  base: '/jewelry_rings/',
   publicDir: '../public',
   build: {
     outDir,
