@@ -11,6 +11,50 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ringstone</title>
+
+    <style>
+      body {
+        overflow: hidden;
+      }
+
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        height: 100%;
+        width: 100%;
+        background: #edf8ff;
+        display: grid;
+        place-content: center;
+        opacity: 1;
+
+        svg {
+          animation: grow-ring 1.5s ease-in-out infinite;
+        }
+
+        &.hidden {
+          opacity: 0;
+          pointer-events: none;
+          user-select: none;
+          transition: all 1s ease-in-out;
+        }
+      }
+
+      @keyframes grow-ring {
+        0% {
+          transform: scale(0.7);
+        }
+
+        50% {
+          transform: scale(1);
+        }
+
+        100% {
+          transform: scale(0.7);
+        }
+      }
+    </style>
   </head>
   <body>
     <header class="header">
@@ -168,6 +212,21 @@
       <section style="height: 100vh"></section>
       <canvas class="webgl"></canvas>
     </main>
+
+    <div class="loading-screen">
+      <svg
+        width="106"
+        height="106"
+        viewBox="0 0 106 106"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M53 44.1668L35.3333 19.4335L42.4 8.8335H63.6L70.6667 19.4335L53 44.1668ZM68.4583 30.0335L63.1583 37.5418C72.875 41.5168 79.5 50.7918 79.5 61.8335C79.5 68.8617 76.708 75.6021 71.7383 80.5718C66.7686 85.5415 60.0282 88.3335 53 88.3335C45.9718 88.3335 39.2314 85.5415 34.2617 80.5718C29.2919 75.6021 26.5 68.8617 26.5 61.8335C26.5 50.7918 33.125 41.5168 42.8417 37.5418L37.5417 30.0335C25.6167 35.7752 17.6667 47.7002 17.6667 61.8335C17.6667 71.2045 21.3893 80.1917 28.0156 86.8179C34.6418 93.4442 43.629 97.1668 53 97.1668C62.371 97.1668 71.3581 93.4442 77.9844 86.8179C84.6107 80.1917 88.3333 71.2045 88.3333 61.8335C88.3333 47.7002 80.3833 35.7752 68.4583 30.0335Z"
+          fill="black"
+        />
+      </svg>
+    </div>
     <script type="module" src="main.ts"></script>
   </body>
 </html>

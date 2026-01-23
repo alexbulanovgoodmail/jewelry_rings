@@ -392,12 +392,19 @@ function animateContact() {
     })
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initSmoothScroll()
-  initThreeJS()
-  initRenderLoop()
-  animateWords()
-  animateDetails()
-  animateSlider()
-  animateContact()
+window.addEventListener('load', () => {
+  // load срабатывает после загрузки всех ресурсов (изображения, шрифты, стили, модели)
+
+  setTimeout(() => {
+    document.querySelector('.loading-screen')?.classList.add('hidden')
+    document.body.style.overflow = 'auto'
+
+    initSmoothScroll()
+    initThreeJS()
+    initRenderLoop()
+    animateWords()
+    animateDetails()
+    animateSlider()
+    animateContact()
+  }, 2000)
 })
