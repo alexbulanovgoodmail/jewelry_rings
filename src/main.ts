@@ -24,7 +24,7 @@ function initSmoothScroll() {
   gsap.ticker.lagSmoothing(0)
 }
 
-const _contactRotation = false
+let _contactRotation = false
 let _ring: THREE.Group | null = null
 let _renderer: THREE.WebGLRenderer | null = null
 let _scene: THREE.Scene | null = null
@@ -51,6 +51,22 @@ function initThreeJS() {
       ringFolder.add(_ring.position, 'z').min(-3).max(3).step(0.01)
     }
 
+    function toggleWireframe(
+      model: THREE.Object3D,
+      isWireframe: boolean,
+      opacity: number,
+    ): void {
+      model.traverse((child: THREE.Object3D) => {
+        if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
+          const mesh = child as THREE.Mesh
+          const material = mesh.material as THREE.MeshStandardMaterial
+          material.wireframe = isWireframe
+          material.opacity = opacity
+          material.transparent = opacity < 1 ? true : false
+        }
+      })
+    }
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: 'section.details',
@@ -65,7 +81,8 @@ function initThreeJS() {
     })
 
     tl.to(_ring.position, {
-      z: 3.5,
+      x: 0.05,
+      z: 2.5,
       y: -0.34,
     })
 
@@ -75,6 +92,71 @@ function initThreeJS() {
         z: 1,
       },
       '<',
+    )
+
+    const mm2 = gsap.matchMedia()
+
+    mm2.add(
+      {
+        isDesktop: '(min-width: 768px)',
+        isMobile: '(max-width: 767px)',
+      },
+      (context) => {
+        const { isDesktop } = context.conditions as {
+          isDesktop: boolean
+          isMobile: boolean
+        }
+
+        // Timeline для wireframe материала
+        ScrollTrigger.create({
+          trigger: '.contact',
+          start: 'top bottom',
+          end: 'bottom center',
+          id: 'wireframe',
+          onEnter: () => {
+            toggleWireframe(_ring as THREE.Object3D, true, 1)
+            _contactRotation = false
+          },
+          onEnterBack: () => {
+            toggleWireframe(_ring as THREE.Object3D, true, 1)
+            _contactRotation = false
+          },
+          onLeave: () => {
+            toggleWireframe(_ring as THREE.Object3D, false, 1)
+            _contactRotation = false
+          },
+          onLeaveBack: () => {
+            toggleWireframe(_ring as THREE.Object3D, false, 1)
+            _contactRotation = false
+          },
+        })
+
+        // Timeline для перемещения кольца
+        const tl2 = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.contact',
+            start: 'top bottom',
+            end: 'bottom+=50% center',
+            scrub: 1,
+
+            id: 'position',
+          },
+        })
+
+        if (_ring) {
+          tl2.to(_ring.position, {
+            z: 0.3,
+            x: isDesktop ? 0.4 : 0,
+            y: -0.23,
+          })
+
+          if (isDesktop) {
+            tl2.to(_ring.position, {
+              x: 0,
+            })
+          }
+        }
+      },
     )
 
     const directionalLight = new THREE.DirectionalLight('lightblue', 10)
@@ -106,6 +188,19 @@ function initThreeJS() {
   })
   _renderer.setSize(sizes.width, sizes.height)
   _renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+  window.addEventListener('resize', () => {
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    if (_camera && _renderer) {
+      _camera.aspect = sizes.width / sizes.height
+      _camera.updateProjectionMatrix()
+
+      _renderer.setSize(sizes.width, sizes.height)
+      _renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    }
+  })
 }
 
 function initRenderLoop() {
