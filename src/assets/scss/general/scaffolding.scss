@@ -165,7 +165,12 @@ body {
 }
 
 .details {
+  margin-bottom: 15rem;
   height: 100vh;
+
+  @media screen and (min-width: $md) {
+    margin-bottom: 0;
+  }
 }
 
 .details-wrapper {
